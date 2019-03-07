@@ -5,6 +5,6 @@ Run
 > npm install
 
 Commands
-    > "start": "webpack-dev-server --open",
-    > "build": "webpack --config webpack.config.js",
-    > "watch": "webpack --watch",
+> "start": "webpack-dev-server --open" <br />
+> "build": "webpack --config webpack.config.js" <br />
+> "watch": "webpack --watch"
