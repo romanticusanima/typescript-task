@@ -13,8 +13,45 @@ enum Category {
   Angular
 }
 
-function getAllBooks(): object[] {
-  let books: object[] = [
+interface DamageLogger {
+  (reason: string): void;
+}
+
+interface Book {
+  id: number;
+  title: string;
+  author: string;
+  available: boolean;
+  category: Category;
+  pages?: number;
+  markDamaged?: DamageLogger;
+}
+
+interface Person {
+  name: string;
+  email: string;
+}
+
+interface Author extends Person {
+  numBooksPublished: number;
+}
+
+interface Librarian extends Person {
+  department: string;
+  assistCustomer: (custName: string) => void;
+}
+
+class UniversityLibrarian implements Librarian {
+  name: string;
+  email: string;
+  department: string;
+  assistCustomer(custName: string): void {
+    console.log(`${this.name} is assisting ${custName}`);
+  }
+}
+
+function getAllBooks(): Book[] {
+  let books: Book[] = [
     {
       id: 1,
       title: 'Refactoring JavaScript',
@@ -82,7 +119,7 @@ function logBookTitles(titles: string[]): void {
   }
 }
 
-function getBookById(id: number): any {
+function getBookById(id: number): Book | undefined {
   const allBooks = getAllBooks();
   return allBooks.find(book => (book as any).id === id);
 }
@@ -135,22 +172,26 @@ function getTitles(bookProperty: string | boolean): string[] {
   return titles;
 }
 
+function printBook(book: Book): void {
+  console.log(`${book.title} by ${book.author}`);
+}
+
 
 console.log('*** Task 01 ***');
 const allBooks = getAllBooks();
 logFirstAvailable(allBooks);
 
-console.log('*** Task 02 ***');
+console.log('*** Task 02 *** enum');
 logBookTitles(getBookTitlesByCategory(Category.JavaScript));
 
-console.log('*** Task 03 ***');
+console.log('*** Task 03 *** arrow functions');
 const javaScriptBooksTitles = getBookTitlesByCategory(Category.JavaScript);
 javaScriptBooksTitles.forEach((title: string) => console.log(title));
 
 const book = getBookById(3);
 console.log(book);
 
-console.log('*** Task 04 *** функциональный тип');
+console.log('*** Task 04 *** function type');
 let myID: string = createCustomerID('Ann', 10);
 console.log(myID);
 
@@ -160,7 +201,7 @@ idGenerator = createCustomerID;
 myID = idGenerator('Ann', 20);
 console.log(myID);
 
-console.log('*** Task 05 ***');
+console.log('*** Task 05 *** optional, default, ...rest parameters');
 createCustomer('Nastya');
 createCustomer('Kate', 29);
 createCustomer('Maria', 32, 'Kiev');
@@ -177,3 +218,42 @@ myBooks.forEach(book => console.log(book));
 console.log('*** Task 06 *** function overloading');
 const checkedOutBooks = getTitles(false);
 checkedOutBooks.forEach(title => console.log(title));
+
+console.log('*** Task 07 *** interface');
+const myBook: Book = {
+  id: 5,
+  title: 'Colors, Backgrounds, and Gradients',
+  author: 'Eric A. Meyer',
+  available: true,
+  category: Category.CSS,
+  pages: 200,
+  markDamaged: (reason: string) => console.log(`Damaged: ${reason}`)
+};
+
+printBook(myBook);
+myBook.markDamaged('missing back cover');
+
+console.log('*** Task 08 *** interface for function types');
+let logDamage: DamageLogger;
+logDamage = (reason: string) => console.log(`Damage: ${reason}`);
+logDamage('coffee stains');
+
+console.log('*** Task 09 *** extending interfaces');
+const favoriteAuthor: Author = {
+  name: 'Mike',
+  email: 'mike@gmail.com',
+  numBooksPublished: 5
+};
+
+// const favoriteLibrarian: Librarian = {
+//   name: 'Olga',
+//   email: 'olga@gmail.com',
+//   department: 'Fantasy',
+//   assistCustomer: (name: string) => console.log(`Assist ${name}`)
+// };
+
+console.log('*** Task 10 *** interfaces for class types');
+const favoriteLibrarian: Librarian = new UniversityLibrarian();
+console.log(favoriteLibrarian);
+favoriteLibrarian.name = 'Nastya';
+favoriteLibrarian.assistCustomer('Max');
