@@ -50,6 +50,56 @@ class UniversityLibrarian implements Librarian {
   }
 }
 
+abstract class ReferenceItem {
+  // title: string;
+  // year: number;
+  private _publisher: string;
+
+  static department: string = 'RD';
+
+  // constructor(newTitle: string, newYear: number) {
+  //   console.log('Creating a new ReferenceItem...');
+  //   this.title = newTitle;
+  //   this.year = newYear;
+  // }
+
+  constructor(public title: string, protected year: number) {
+    console.log('Creating a new ReferenceItem...');
+  }
+
+  get publisher(): string {
+    return this._publisher.toLocaleUpperCase();
+  }
+
+  set publisher(newPublisher: string) {
+    this._publisher = newPublisher;
+  }
+
+  printItem(): void {
+    console.log(`${this.title} was published in ${this.year}`);
+    console.log(`Department ${ReferenceItem.department}`)
+  }
+
+  abstract printCitation(): void;
+}
+
+class Encyclopedia extends ReferenceItem {
+  constructor(title: string, year: number, public edition: number) {
+    super(title, year);
+  }
+
+  printItem(): void {
+    super.printItem();
+    console.log(`Edition: ${this.edition} ${this.year}`);
+  }
+
+  printCitation(): void {
+    console.log(`${this.title} - ${this.year}`);
+  }
+}
+
+
+
 function getAllBooks(): Book[] {
   let books: Book[] = [
     {
@@ -257,3 +307,19 @@ const favoriteLibrarian: Librarian = new UniversityLibrarian();
 console.log(favoriteLibrarian);
 favoriteLibrarian.name = 'Nastya';
 favoriteLibrarian.assistCustomer('Max');
+
+// console.log('*** Task 11 *** classes creation');
+// const ref: ReferenceItem = new ReferenceItem('Facts', 2019);
+// ref.printItem();
+// ref.publisher = 'test publisher';
+// console.log(ref.publisher);
+
+console.log('*** Task 12 *** extending class');
+const refBook: Encyclopedia = new Encyclopedia('Encyclopedia', 2019, 10);
+console.log(refBook);
+refBook.printItem();
+
+console.log('*** Task 13 *** abstract class');
+refBook.printCitation();
+
+console.log('*** Task 14 *** abstract class');
