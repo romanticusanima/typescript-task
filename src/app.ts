@@ -1,104 +1,14 @@
+import { Category } from './enums';
+import { Book, Logger, Author, Librarian } from './interfaces';
+import { ReferenceItem, UniversityLibrarian} from './classes'
+import RefBook from './classes/encyclopedia'
+
 showHello('greeting', 'TypeScript');
 
 function showHello(divName: string, name: string) {
   const elt = document.getElementById(divName);
   elt.innerText = `Hello from ${name}`;
 }
-
-enum Category {
-  JavaScript,
-  CSS,
-  HTML,
-  TypeScript,
-  Angular
-}
-
-interface DamageLogger {
-  (reason: string): void;
-}
-
-interface Book {
-  id: number;
-  title: string;
-  author: string;
-  available: boolean;
-  category: Category;
-  pages?: number;
-  markDamaged?: DamageLogger;
-}
-
-interface Person {
-  name: string;
-  email: string;
-}
-
-interface Author extends Person {
-  numBooksPublished: number;
-}
-
-interface Librarian extends Person {
-  department: string;
-  assistCustomer: (custName: string) => void;
-}
-
-class UniversityLibrarian implements Librarian {
-  name: string;
-  email: string;
-  department: string;
-  assistCustomer(custName: string): void {
-    console.log(`${this.name} is assisting ${custName}`);
-  }
-}
-
-abstract class ReferenceItem {
-  // title: string;
-  // year: number;
-  private _publisher: string;
-
-  static department: string = 'RD';
-
-  // constructor(newTitle: string, newYear: number) {
-  //   console.log('Creating a new ReferenceItem...');
-  //   this.title = newTitle;
-  //   this.year = newYear;
-  // }
-
-  constructor(public title: string, protected year: number) {
-    console.log('Creating a new ReferenceItem...');
-  }
-
-  get publisher(): string {
-    return this._publisher.toLocaleUpperCase();
-  }
-
-  set publisher(newPublisher: string) {
-    this._publisher = newPublisher;
-  }
-
-  printItem(): void {
-    console.log(`${this.title} was published in ${this.year}`);
-    console.log(`Department ${ReferenceItem.department}`)
-  }
-
-  abstract printCitation(): void;
-}
-
-class Encyclopedia extends ReferenceItem {
-  constructor(title: string, year: number, public edition: number) {
-    super(title, year);
-  }
-
-  printItem(): void {
-    super.printItem();
-    console.log(`Edition: ${this.edition} ${this.year}`);
-  }
-
-  printCitation(): void {
-    console.log(`${this.title} - ${this.year}`);
-  }
-}
-
-
 
 function getAllBooks(): Book[] {
   let books: Book[] = [
@@ -284,7 +194,7 @@ printBook(myBook);
 myBook.markDamaged('missing back cover');
 
 console.log('*** Task 08 *** interface for function types');
-let logDamage: DamageLogger;
+let logDamage: Logger;
 logDamage = (reason: string) => console.log(`Damage: ${reason}`);
 logDamage('coffee stains');
 
@@ -315,7 +225,7 @@ favoriteLibrarian.assistCustomer('Max');
 // console.log(ref.publisher);
 
 console.log('*** Task 12 *** extending class');
-const refBook: Encyclopedia = new Encyclopedia('Encyclopedia', 2019, 10);
+const refBook: RefBook = new RefBook('Encyclopedia', 2019, 10);
 console.log(refBook);
 refBook.printItem();
 
