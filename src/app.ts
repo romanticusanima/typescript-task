@@ -1,9 +1,23 @@
 import { Category } from './enums';
 import { Book, Logger, Author, Librarian, Magazine } from './interfaces';
-import { ReferenceItem, UniversityLibrarian, Shelf } from './classes';
+import { UniversityLibrarian, Shelf } from './classes';
 import RefBook from './classes/encyclopedia';
-import { purge } from './lib/utility-function';
 import Encyclopedia from './classes/encyclopedia';
+import { 
+  purge, 
+  getAllBooks, 
+  logFirstAvailable, 
+  logBookTitles, 
+  getBookTitlesByCategory, 
+  getBookById, 
+  createCustomerID, 
+  createCustomer, 
+  checkoutBooks, 
+  getTitles, 
+  printBook,
+  getBooksByCategory,
+  logCategorySearch
+} from './lib/utility-function';
 
 showHello('greeting', 'TypeScript');
 
@@ -11,133 +25,6 @@ function showHello(divName: string, name: string) {
   const elt = document.getElementById(divName);
   elt.innerText = `Hello from ${name}`;
 }
-
-function getAllBooks(): Book[] {
-  let books: Book[] = [
-    {
-      id: 1,
-      title: 'Refactoring JavaScript',
-      author: 'Evan Burchard',
-      available: true,
-      category: Category.JavaScript
-    },
-    {
-      id: 2,
-      title: 'JavaScript Testing',
-      author: 'Liang Yuxian Eugene',
-      available: false,
-      category: Category.JavaScript
-    },
-    {
-      id: 3,
-      title: 'CSS Secrets',
-      author: 'Lea Verou',
-      available: true,
-      category: Category.CSS
-    },
-    {
-      id: 4,
-      title: 'Mastering JavaScript Object-Oriented Programming',
-      author: 'Andrea Chiarelli',
-      available: true,
-      category: Category.JavaScript
-    }
-  ];
-
-  return books;
-}
-
-function logFirstAvailable(books: any[] = getAllBooks()): void {
-  const numberOfBooks: number = books.length;
-  let firstAvailableTitle: string = '';
-
-  for(const book of books) {
-    if (book.available) {
-      firstAvailableTitle = book.title;
-      break;
-    }
-  }
-
-  console.log(`number of books: ${numberOfBooks}`);
-  console.log(`first available book: ${firstAvailableTitle}`);
-}
-
-function getBookTitlesByCategory(category: Category = Category.JavaScript): Array<string> {
-  const allBooks = getAllBooks() as any[];
-  const titles: Array<string> = [];
-
-  for(const book of allBooks) {
-    if(book.category === category) {
-      titles.push(book.title);
-    }
-  }
-
-  return titles;
-}
-
-function logBookTitles(titles: string[]): void {
-  for(const title of titles) {
-    console.log(title);
-  }
-}
-
-function getBookById(id: number): Book | undefined {
-  const allBooks = getAllBooks();
-  return allBooks.find(book => (book as any).id === id);
-}
-
-function createCustomerID(name: string, id: number): string {
-  return `${name} ${id}`;
-}
-
-function createCustomer(name: string, age?: number, city?: string): void {
-  console.log(`Create customer name: ${name}`);
-  if (age) {
-    console.log(`Create customer age: ${age}`);
-  }
-  if (city) {
-    console.log(`Create customer city: ${city}`);
-  }
-}
-
-function checkoutBooks(customer: string, ...bookIDs: number[]): string[] {
-  console.log(`checking out books for ${customer}`);
-
-  const titles: string[] = [];
-
-  for (const id of bookIDs) {
-    const book = getBookById(id);
-    if (book && book.available) {
-      titles.push(book.title);
-    }
-  }
-
-  return titles;
-}
-
-function getTitles(author: string): string[];
-function getTitles(available: boolean): string[];
-function getTitles(bookProperty: string | boolean): string[] {
-  const allBooks: any[] = getAllBooks();
-  let titles: string[] = [];
-
-  if(typeof bookProperty === 'string') {
-    titles = allBooks
-        .filter(book => book.author === bookProperty)
-        .map(book => book.title);
-  } else if (typeof bookProperty === 'boolean') {
-    titles = allBooks
-        .filter(book => book.available === bookProperty)
-        .map(book => book.title);
-  }
-
-  return titles;
-}
-
-function printBook(book: Book): void {
-  console.log(`${book.title} by ${book.author}`);
-}
-
 
 console.log('*** Task 01 ***');
 const allBooks = getAllBooks();
@@ -315,10 +202,13 @@ console.log(lib3.name);
 
 console.log('*** Task 27 ***');
 let ency = new Encyclopedia('Title', 2019, 8);
-ency.copies = -10;
+ency.copies = 10;
 
 console.log('*** Task 28 ***');
-
+console.log('Beggining search...');
+getBooksByCategory(Category.JavaScript, logCategorySearch);
+getBooksByCategory(Category.Software, logCategorySearch);
+console.log('Search is completed');
 
 console.log('*** Task 29 ***');
 

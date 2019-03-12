@@ -132,7 +132,7 @@ export function positiveInteger(
     const oldSet = descriptor.set;
 
     descriptor.set = function(value: number) {
-        if (value <= 0 || Number.isInteger(value)) {
+        if (value <= 0 || !Number.isInteger(value)) {
             throw new Error('Invalid value');
         }
 
