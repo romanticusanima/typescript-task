@@ -155,3 +155,24 @@ export function logCategorySearch(err: Error, titles: string[]): void {
         console.log(titles);
     }
 }
+
+export function getBooksByCategoryPromise(categoty: Category): Promise<string[]> {
+    const p: Promise<string[]> = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const titles: string[] = getBookTitlesByCategory(categoty);
+
+            if (titles.length > 0) {
+                resolve(titles);
+            } else {
+                reject('No books found');
+            }
+        }, 2000); 
+    });
+
+    return p;
+ }
+
+export async function logSearchResults(category: Category) {
+    let foundBooks = await getBooksByCategoryPromise(category);
+    console.log(foundBooks);
+}

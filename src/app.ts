@@ -16,7 +16,9 @@ import {
   getTitles, 
   printBook,
   getBooksByCategory,
-  logCategorySearch
+  logCategorySearch,
+  getBooksByCategoryPromise,
+  logSearchResults
 } from './lib/utility-function';
 
 showHello('greeting', 'TypeScript');
@@ -211,7 +213,18 @@ getBooksByCategory(Category.Software, logCategorySearch);
 console.log('Search is completed');
 
 console.log('*** Task 29 ***');
-
+console.log('Beggining search...');
+getBooksByCategoryPromise(Category.JavaScript)
+  .then(titles => {
+    console.log(titles);
+    return titles.length;
+  })
+  .then(numOfBooks => console.log(numOfBooks))
+  .catch(err => console.log(err));
+  console.log('Search is completed');
 
 console.log('*** Task 30 ***');
-
+console.log('Beginning search...');
+logSearchResults(Category.Software)
+  .catch(reason => console.log(reason));
+console.log('Search submitted...');
