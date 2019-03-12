@@ -3,6 +3,7 @@ import { Book, Logger, Author, Librarian, Magazine } from './interfaces';
 import { ReferenceItem, UniversityLibrarian, Shelf } from './classes';
 import RefBook from './classes/encyclopedia';
 import { purge } from './lib/utility-function';
+import Encyclopedia from './classes/encyclopedia';
 
 showHello('greeting', 'TypeScript');
 
@@ -291,3 +292,36 @@ console.log('*** Task 22 ***');
 let fLibrarian: Librarian = new UniversityLibrarian();
 fLibrarian.name = 'Anna';
 fLibrarian['printLibrarian']();
+
+console.log('*** Task 23 ***');
+let lib = new UniversityLibrarian();
+lib.assistFaculty = () => console.log('Hello');
+lib.assistFaculty();
+//lib.teachCommunity = () => console.log('World');
+
+console.log('*** Task 24 ***');
+const enc = new Encyclopedia('Title', 2019, 8);
+enc.printItem();
+
+console.log('*** Task 25 ***');
+const lib2 = new UniversityLibrarian();
+lib2.name = 'Anna';
+lib2.assistCustomer('Boris');
+
+console.log('*** Task 26 ***');
+const lib3 = new UniversityLibrarian();
+lib3.name = 'Kate';
+console.log(lib3.name);
+
+console.log('*** Task 27 ***');
+let ency = new Encyclopedia('Title', 2019, 8);
+ency.copies = -10;
+
+console.log('*** Task 28 ***');
+
+
+console.log('*** Task 29 ***');
+
+
+console.log('*** Task 30 ***');
+
